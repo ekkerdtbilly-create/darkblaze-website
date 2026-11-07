@@ -1,5 +1,5 @@
 /* █║▌│█║▌│█DARKBLAZE GROUP
-AI_CONTEXT: {"generated_at_utc":"2026-11-07T21:33:33Z","agent":"OpenAI Codex /root; Python 3 R15.1 styling update","purpose":"Reduce the visible AI badge so the DarkBlaze woven mark remains legible, and remove Home/Work/About separators.","behavior":"Keeps the 1.5rem button hit target while rendering a 1rem desktop badge and .88rem compact-phone badge; removes vertical nav borders and their extra padding.","relationships":["darkblaze-website@2e4f03f2b052923e681f8bee50d5ee5318ae89ad","index.html#secretary-toggle","PUBLICATION-MANIFEST.md","GitHub Pages main root"],"schema":"CSS with provenance in a CSS comment and closing marker; body SHA-256 excludes the header and final marker","validation":{"sha256_scope":"UTF-8 body after first three provenance lines and before terminal marker; trailing body newlines excluded","command":"Python 3 provenance JSON/hash and CSS selector assertions; git diff --check; no browser tests run","environment":"Android Termux; darkblaze-website publication checkout","timestamp_utc":"2026-11-07T21:33:33Z","result":"PASS: intended badge sizing, preserved hit target, hover containment, and no-divider rules are present; archive hashes regenerated. Browser QA not rerun.","content_sha256":"99185279b94fb3a28116968247552524c56869938e9fd1f63069e24ff368a777"}}
+AI_CONTEXT: {"generated_at_utc":"2026-11-07T22:05:57Z","agent":"OpenAI Codex /root; R15.2 HNDEN showcase refinement","purpose":"Keep the HNDEN ambient field softened while presenting its first-generation neural network design prototype and investor-facing direction clearly.","behavior":"Blurs and frosts the moving background; places crisp copy and an abstract visual in a high-contrast glass surface; styles an accessible research-support contact link; adapts to phone widths; pauses ornamental movement for reduced-motion preference.","relationships":["hnden.html","hnden.js optional video control","DarkBlaze Website R15.1@31e003d","R16 HNDEN single-surface projection"],"schema":"CSS with provenance in a CSS comment and closing marker; body SHA-256 excludes the header and final marker","validation":{"sha256_scope":"UTF-8 body after first three provenance lines and before terminal marker; trailing body newlines excluded","command":"Python 3 provenance JSON/body SHA-256 verification; git diff --check; browser tests not run","environment":"Android Termux R15.2 isolated Git worktree","timestamp_utc":"2026-11-07T22:05:57Z","result":"PASS: foreground content, first-generation prototype narrative, support direction, privacy principles, responsive styling, and in-band provenance verified. Chromium rendering review pending.","content_sha256":"38e2a143694d168f8aecbafc7c479cae6f51df23b266e6dfe9de5849adc0f82e"}}
 */
 
 
@@ -403,38 +403,57 @@ body.secretary-open .secretary-mark-wrap { transform: none; }
 }
 
 /* Separate, frameless HNDEN showcase. */
-.hnden-page { min-height: 100svh; overflow: hidden; color: #f5f7ff; background: #080d1a; }
+.hnden-page { min-height: 100svh; overflow-x: hidden; overflow-y: auto; color: #f5f7ff; background: #080d1a; }
 .hnden-stage { position: fixed; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 52% 47%,#172748 0%,#0b1224 54%,#070b15 100%); }
 .hnden-stage::before { position: absolute; z-index: 1; inset: -10%; content: ""; pointer-events: none; background: conic-gradient(from 220deg at 58% 47%,rgba(57,223,255,.82),rgba(126,102,255,.78),rgba(255,79,189,.68),rgba(63,250,200,.64),rgba(57,223,255,.82)); opacity: .48; mix-blend-mode: color; }
-.hnden-stage::after { position: absolute; z-index: 2; inset: 0; content: ""; background: linear-gradient(90deg,rgba(6,10,22,.84),rgba(6,10,22,.3) 54%,rgba(6,10,22,.06)),linear-gradient(0deg,rgba(6,10,22,.42),transparent 42%); }
-.hnden-visual { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .9; }
-.hnden-shell { position: relative; z-index: 1; display: flex; min-height: 100svh; flex-direction: column; padding: max(1rem,env(safe-area-inset-top)) clamp(1rem,5vw,4.5rem) max(1rem,env(safe-area-inset-bottom)); }
+.hnden-stage::after { position: absolute; z-index: 2; inset: 0; content: ""; background: linear-gradient(90deg,rgba(6,10,22,.74),rgba(6,10,22,.38) 54%,rgba(6,10,22,.18)),linear-gradient(0deg,rgba(6,10,22,.48),rgba(6,10,22,.16) 48%,rgba(6,10,22,.35)); backdrop-filter: blur(18px) saturate(.72); -webkit-backdrop-filter: blur(18px) saturate(.72); }
+.hnden-visual { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; opacity: .78; filter: blur(16px) saturate(.82); transform: scale(1.04); }
+.hnden-shell { position: relative; z-index: 1; display: flex; min-height: 100svh; flex-direction: column; gap: clamp(1rem,2.5vh,2rem); padding: max(1rem,env(safe-area-inset-top)) clamp(1rem,5vw,4.5rem) max(1rem,env(safe-area-inset-bottom)); }
 .hnden-topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .hnden-brand { display: inline-flex; align-items: center; gap: .75rem; color: #f5f7ff; font-size: .92rem; font-weight: 650; letter-spacing: .03em; text-decoration: none; }
 .hnden-mark { width: 2.8rem; height: 2.8rem; object-fit: contain; filter: invert(1) drop-shadow(0 0 .9rem rgba(97,199,255,.55)); }
 .hnden-back { display: inline-flex; min-height: 2.75rem; align-items: center; color: #eef5ff; text-underline-offset: .35em; }
-.hnden-content { display: grid; width: min(100%,70rem); flex: 1; align-content: center; justify-items: start; margin-inline: auto; padding-block: clamp(3rem,9vh,7rem); }
-.hnden-kicker { margin: 0 0 .8rem; color: #8cddff; font-size: .82rem; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
-.hnden-content h1 { max-width: 9ch; margin: 0; font-size: clamp(4rem,12vw,9rem); line-height: .88; letter-spacing: -.075em; font-weight: 620; text-shadow: 0 .3rem 3rem rgba(3,8,22,.55); }
-.hnden-lead { max-width: 37rem; margin: clamp(1.4rem,4vh,2.5rem) 0 0; color: #eef3ff; font-size: clamp(1.15rem,2.3vw,1.65rem); line-height: 1.45; text-wrap: balance; }
-.hnden-disclosure { max-width: 35rem; margin: 1rem 0 0; color: #c5d0e6; font-size: .93rem; line-height: 1.6; }
-.hnden-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 2rem; }
-.hnden-motion-toggle { min-width: 7.5rem; min-height: 2.8rem; border: 1px solid rgba(218,235,255,.48); border-radius: 999px; padding: .55rem 1rem; color: #f5f7ff; background: rgba(10,18,38,.42); backdrop-filter: blur(8px); }
-.hnden-motion-toggle:hover { background: rgba(76,139,190,.3); }
+.hnden-content { display: grid; grid-template-columns: minmax(0,1.12fr) minmax(15rem,.88fr); align-items: center; gap: clamp(1rem,3vw,2.4rem); width: min(100%,76rem); flex: 1; margin-inline: auto; padding-block: clamp(1.25rem,4vh,3rem); }
+.hnden-showcase-copy, .hnden-field-card { border: 1px solid rgba(215,233,255,.22); border-radius: 1.35rem; background: rgba(9,16,34,.72); box-shadow: 0 1.2rem 4rem rgba(2,7,20,.28),inset 0 1px rgba(255,255,255,.06); backdrop-filter: blur(12px) saturate(.92); -webkit-backdrop-filter: blur(12px) saturate(.92); }
+.hnden-showcase-copy { padding: clamp(1.15rem,3vw,2.3rem); }
+.hnden-kicker { margin: 0 0 .8rem; color: #8cddff; font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.hnden-content h1 { max-width: 9ch; margin: 0; font-size: clamp(3.5rem,8vw,6.6rem); line-height: .9; letter-spacing: -.075em; font-weight: 650; text-shadow: 0 .3rem 2rem rgba(3,8,22,.55); }
+.hnden-lead { max-width: 39rem; margin: 1rem 0 0; color: #f2f6ff; font-size: clamp(1.05rem,1.7vw,1.35rem); font-weight: 520; line-height: 1.5; text-wrap: balance; }
+.hnden-explanation { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .85rem 1.2rem; margin-top: 1.4rem; }
+.hnden-explanation section { padding-top: .8rem; border-top: 1px solid rgba(215,233,255,.2); }
+.hnden-explanation h2 { margin: 0 0 .35rem; color: #a9e9ff; font-size: .8rem; font-weight: 700; letter-spacing: .04em; }
+.hnden-explanation p { margin: 0; color: #d5deef; font-size: .87rem; line-height: 1.55; }
+.hnden-support-link { display: inline-flex; min-height: 2.6rem; align-items: center; margin-top: .65rem; color: #b5efff; font-size: .8rem; font-weight: 650; text-underline-offset: .2em; }
+.hnden-disclosure { grid-column: 1/-1; max-width: 42rem; margin: 0; color: #adb9d0; font-size: .78rem; line-height: 1.5; }
+.hnden-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; margin-top: 1.2rem; }
+.hnden-motion-toggle { min-width: 7.5rem; min-height: 2.8rem; border: 1px solid rgba(218,235,255,.52); border-radius: 999px; padding: .55rem 1rem; color: #f5f7ff; background: rgba(10,18,38,.72); }
+.hnden-motion-toggle:hover { background: rgba(76,139,190,.38); }
 .hnden-motion-status { margin: 0; color: #d6deee; font-size: .82rem; }
+.hnden-field-card { display: grid; min-height: min(62vh,37rem); align-content: center; justify-items: center; margin: 0; padding: clamp(.85rem,2vw,1.5rem); }
+.hnden-field-illustration { display: block; width: 100%; max-height: 31rem; overflow: visible; }
+.hnden-field-lines { stroke-dasharray: 5 10; animation: hnden-drift 18s linear infinite; }
+.hnden-field-nodes circle { fill: #c4f7ff; stroke: rgba(116,226,255,.28); stroke-width: 9; paint-order: stroke; filter: drop-shadow(0 0 9px rgba(100,221,255,.68)); animation: hnden-pulse 5s ease-in-out infinite alternate; }
+.hnden-field-nodes circle:nth-child(3n) { animation-delay: -2s; }
+.hnden-field-card figcaption { margin-top: .4rem; color: #c7d4e9; font-size: .78rem; letter-spacing: .03em; text-align: center; }
+@keyframes hnden-drift { to { stroke-dashoffset: -120; } }
+@keyframes hnden-pulse { from { opacity: .62; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .hnden-field-lines, .hnden-field-nodes circle { animation: none; } }
+@media (max-width: 760px) {
+  .hnden-content { grid-template-columns: minmax(0,1fr); max-width: 44rem; padding-block: .25rem; }
+  .hnden-field-card { min-height: 16rem; }
+  .hnden-field-illustration { max-height: 19rem; }
+}
 @media (max-width: 560px) {
   .hnden-shell { padding-inline: 1rem; }
   .hnden-brand { font-size: .78rem; }
   .hnden-mark { width: 2.35rem; height: 2.35rem; }
-  .hnden-content { padding-block: 3.5rem; }
-  .hnden-content h1 { font-size: clamp(3.8rem,22vw,6.5rem); }
+  .hnden-content { gap: .85rem; }
+  .hnden-explanation { grid-template-columns: minmax(0,1fr); }
+  .hnden-disclosure { grid-column: auto; }
+  .hnden-showcase-copy { padding: 1rem; }
+  .hnden-content h1 { font-size: clamp(3.7rem,20vw,5.7rem); }
 }
-
-
-
-
-
-
+@media (prefers-reduced-motion: reduce) { .hnden-stage::after, .hnden-visual { transition: none; } }
 
 /* First-visit privacy gate and pre-entry local assistant. */
 body:not(.js) .entry-gate { display: none; }
