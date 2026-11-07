@@ -1,0 +1,49 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'; script-src 'self'; style-src 'self'; style-src-attr 'none'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'">
+  <meta name="theme-color" content="#080d1a">
+  <meta name="description" content="Explore the DarkBlaze HNDEN neural-lattice visual showcase.">
+  <title>HNDEN | DarkBlaze Group</title>
+  <link rel="icon" href="assets/brand/darkblaze-primary-logomark-144.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="hnden.js"></script>
+</head>
+<body class="hnden-page">
+  <a class="skip-link" href="#hnden-title">Skip to showcase</a>
+  <div class="hnden-stage" aria-hidden="true">
+    <video class="hnden-visual" id="hnden-visual" muted loop playsinline preload="none" poster="assets/ambient/hnden-background-poster-optimized.png" tabindex="-1">
+      <source data-src="assets/ambient/hnden-background.webm" type="video/webm">
+    </video>
+  </div>
+  <div class="hnden-shell">
+    <header class="hnden-topline">
+      <a class="hnden-brand" href="index.html#home">
+        <img class="hnden-mark" src="assets/brand/darkblaze-primary-logomark-144.png" width="144" height="144" alt="">
+        <span>DarkBlaze Group</span>
+      </a>
+      <a class="hnden-back" href="index.html#work">Back to Work</a>
+    </header>
+    <main class="hnden-content" id="main-content">
+      <p class="hnden-kicker">Neural-lattice visual showcase</p>
+      <h1 id="hnden-title" tabindex="-1">HNDEN</h1>
+      <p class="hnden-lead">A moving visual exploration of the HNDEN neural lattice.</p>
+      <p class="hnden-disclosure">This is an illustrative render. The mathematical contract for the model and its projection is still under validation; the animation does not establish that the geometry is mathematically verified.</p>
+      <div class="hnden-actions">
+        <button class="hnden-motion-toggle" id="hnden-motion-toggle" type="button" aria-pressed="false">Play visual</button>
+        <p class="hnden-motion-status" id="hnden-motion-status" role="status" aria-live="polite">The visual is paused.</p>
+      </div>
+    </main>
+    <footer class="hnden-topline">
+      <a class="hnden-back" href="index.html#home">DarkBlaze Group home</a>
+      <span class="hnden-motion-status">Motion is optional and can be paused.</span>
+    </footer>
+  </div>
+</body>
+</html>
+
+
+

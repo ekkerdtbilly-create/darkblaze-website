@@ -1,0 +1,355 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'; script-src 'self'; style-src 'self'; style-src-attr 'none'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="DarkBlaze Group: UCC-led research, systems work, and a separate HNDEN neural-lattice visual showcase.">
+  <title>DarkBlaze Group</title>
+  <link rel="icon" href="assets/brand/darkblaze-primary-logomark-144.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <section class="entry-gate" id="entry-gate" role="dialog" aria-modal="true" aria-labelledby="entry-gate-title" aria-describedby="entry-gate-summary">
+    <div class="entry-gate-panel">
+      <button class="entry-assistant-trigger" id="entry-assistant-trigger" type="button" aria-controls="entry-assistant" aria-expanded="false" aria-label="Ask the local assistant before entering">
+        <span class="entry-trinity-rotor"><img src="assets/brand/darkblaze-primary-logomark-144.png" alt="" width="144" height="144"></span>
+        <span class="entry-assistant-label">Ask the local assistant</span>
+      </button>
+      <section class="entry-assistant" id="entry-assistant" aria-label="Local prepared-reply assistant" hidden>
+        <p class="entry-assistant-note">Prepared replies run on this page. No live AI is connected, and your question is not sent or saved.</p>
+        <form id="entry-assistant-form">
+          <label class="visually-hidden" for="entry-assistant-question">Ask a question before entering</label>
+          <input id="entry-assistant-question" name="question" maxlength="240" autocomplete="off" placeholder="Ask about DarkBlaze" required>
+          <button type="submit">Ask</button>
+        </form>
+        <p id="entry-assistant-reply" class="entry-assistant-reply" role="status" aria-live="polite" hidden></p>
+      </section>
+      <p class="entry-eyebrow">Privacy · sovereignty · choice</p>
+      <h1 id="entry-gate-title">Your experience stays yours.</h1>
+      <p class="entry-gate-summary" id="entry-gate-summary">DarkBlaze puts privacy and user sovereignty first in its interface design.</p>
+      <ul class="entry-privacy-points">
+        <li>This static site has no application database, analytics, cookies, browser storage, or application-level IP logging. Each visit starts fresh.</li>
+        <li>Continue is the explicit opt-in to proceed and ask your browser for optional location. If allowed, longitude remains in page memory while this page is open for local solar color adjustment; closing or reloading clears it. The site does not save or transmit it, and you can deny location and still enter. Your browser may remember its own permission setting; the site does not save consent.</li>
+        <li>Live weather is not connected yet, so location is not sent to a weather service. A suitable commercial weather source and updated disclosure are required before forecasts can be enabled.</li>
+        <li>Contact details are not stored here. If you choose an email or WhatsApp handoff, your details stay in your app until you decide to send them.</li>
+        <li>We collect no interaction analytics or automatic bug reports. If you choose to submit an issue, we use only what you include to investigate and fix it. Host/CDN IP logs still need review.</li>
+      </ul>
+      <nav class="entry-documents" aria-label="Review website documents">
+        <a href="privacy-notice.html" target="_blank" rel="noopener">Privacy notice <span aria-hidden="true">↗</span></a>
+        <a href="terms-of-use.html" target="_blank" rel="noopener">Terms of use <span aria-hidden="true">↗</span></a>
+        <a href="accessibility.html" target="_blank" rel="noopener">Accessibility <span aria-hidden="true">↗</span></a>
+      </nav>
+      <p class="entry-agreement-note">Pressing Agree and continue is your explicit choice to enter and opt in to the browser’s optional location prompt for local color adaptation. You can deny location and still enter. Your browser may remember its permission setting, but this site does not save consent; this notice appears again on every new page load.</p>
+      <div class="entry-gate-actions">
+        <button id="entry-continue" class="entry-continue" type="button">Agree and continue</button>
+        <button id="entry-decline" class="entry-decline" type="button">Decline and go back</button>
+      </div>
+      <p id="entry-decline-status" class="entry-decline-status" role="status" hidden></p>
+    </div>
+  </section>
+  <a class="skip-link" href="#home-title">Skip to content</a>
+  <div class="welcome-sequence" id="welcome-sequence" aria-hidden="true" hidden>
+    <div class="welcome-orbit welcome-orbit-one"></div>
+    <div class="welcome-orbit welcome-orbit-two"></div>
+    <div class="welcome-projects">
+      <svg class="welcome-project welcome-ucc" viewBox="0 0 96 80"><path d="M48 5 82 23v34L48 75 14 57V23Z M14 23l34 18 34-18M48 41v34"/><circle cx="48" cy="41" r="5"/></svg>
+      <svg class="welcome-project welcome-os" viewBox="0 0 96 80"><path d="M12 65h72M20 57V24h56v33M29 47h10V33H29zM47 47h10V33H47zM65 47h5V33h-5zM48 24V12"/><circle cx="48" cy="12" r="4"/></svg>
+      <svg class="welcome-project welcome-ui" viewBox="0 0 96 80"><rect x="11" y="12" width="59" height="45" rx="4"/><path d="M21 24h38M21 34h24M21 44h31M70 32h15v39H44V57"/><circle cx="75" cy="61" r="2"/></svg>
+      <svg class="welcome-project welcome-hnden" viewBox="0 0 96 80"><path d="M48 8 76 24v32L48 72 20 56V24Z M20 24l28 16 28-16M48 40v32M30 14l36 52M66 14 30 66M10 40h76"/><circle cx="48" cy="40" r="4"/><circle cx="10" cy="40" r="3"/><circle cx="86" cy="40" r="3"/></svg>
+    </div>
+    <div class="welcome-table"></div>
+    <div class="welcome-emblem" role="img" aria-label="DarkBlaze Woven Trinity mark"></div>
+  </div>
+  <div class="night-wash" aria-hidden="true"></div>
+  <div class="ambient-depth" aria-hidden="true"></div>
+  <div class="matrix-window" aria-hidden="true">
+    <video class="matrix-video" autoplay muted loop playsinline preload="none" poster="assets/ambient/hnden-background-poster-optimized.png" disablepictureinpicture tabindex="-1">
+      <source data-src="assets/ambient/hnden-background.webm" type="video/webm">
+    </video>
+    <img class="ambient-poster" src="assets/ambient/hnden-background-poster-optimized.png" alt="" width="1280" height="720">
+    <div class="ambient-fallback"></div>
+  </div>
+
+  <header class="smartbar" aria-label="Site reception bar">
+    <div class="smartbar-shell">
+      <div class="brand-cluster" role="group" aria-label="DarkBlaze brand and Site Secretary">
+        <span class="brand-trinity-wrap">
+          <span class="brand-mark-home" aria-hidden="true">
+            <span class="brand-mark-rotor"><img class="brand-trinity" src="assets/brand/darkblaze-primary-logomark-144.png" alt="" width="144" height="144"></span>
+          </span>
+          <button class="secretary-toggle" id="secretary-toggle" type="button" aria-expanded="false" aria-controls="secretary-panel" aria-label="Open Site Secretary AI panel with local prepared replies" disabled>
+            <span class="secretary-ai" aria-hidden="true">AI</span>
+          </button>
+        </span>
+        <a class="brand-home" href="#home" data-panel-link="home" aria-label="DarkBlaze Research and Development Home">
+          <span class="brand-lockup">
+            <span class="brand-wordmark-window"><img class="brand-wordmark" src="assets/brand/darkblaze-wordmark-official-crop.png" alt="" width="1058" height="210"></span>
+            <span class="brand-descriptor">Research and Development</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#home" data-panel-link="home" aria-current="page"><span>Home</span></a>
+        <a href="#work" data-panel-link="work"><span>Work</span></a>
+        <a href="#about" data-panel-link="about"><span>About</span></a>
+      </nav>
+
+      <div class="reception-status" role="group" aria-label="Local date, time, display and weather">
+        <time id="local-time" aria-label="Your local date and time">-- November, ---- | --:--</time>
+        <span class="status-divider" aria-hidden="true"></span>
+        <div class="theme-controls" role="group" aria-label="Display theme">
+          <button class="theme-choice" type="button" data-theme-mode="auto" aria-label="Automatic display theme" aria-pressed="true" title="Automatic display theme">A</button>
+          <button class="theme-choice" type="button" data-theme-mode="dark" aria-label="Night display theme" aria-pressed="false" title="Night display theme"><svg class="theme-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"/></svg></button>
+          <button class="theme-choice" type="button" data-theme-mode="light" aria-label="Daytime display theme" aria-pressed="false" title="Daytime display theme"><svg class="theme-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg></button>
+        </div>
+        <span class="status-divider" aria-hidden="true"></span>
+        <div class="weather-state" role="status" aria-label="Live weather is not connected">
+          <svg class="weather-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M20 16.2A4.8 4.8 0 0 0 18.4 7a6.5 6.5 0 0 0-12.6 1.8A4.2 4.2 0 0 0 6.2 17H19"/></svg>
+          <span id="weather-reading">Weather unavailable</span>
+        </div>
+      </div>
+
+      <form class="secretary-quick-form" id="secretary-question-form" aria-label="Ask a question of the local prepared-reply assistant" hidden>
+        <span class="quick-assistant-mark" aria-hidden="true">AI</span>
+        <label class="visually-hidden" for="secretary-question">Ask the local assistant</label>
+        <input id="secretary-question" name="question" type="text" maxlength="240" autocomplete="off" placeholder="Ask about DarkBlaze" required>
+        <button class="quick-send" type="submit" aria-label="Show a prepared reply">↵</button>
+      </form>
+    </div>
+
+    <aside class="secretary-panel" id="secretary-panel" role="dialog" aria-modal="false" aria-labelledby="secretary-title" aria-describedby="secretary-notice" hidden>
+      <div class="secretary-panel-heading">
+        <div>
+          <p class="eyebrow">Local only · prepared replies</p>
+          <h2 id="secretary-title">DarkBlaze assistant</h2>
+        </div>
+        <button class="close-secretary" id="secretary-close" type="button" aria-label="Close assistant panel">×</button>
+      </div>
+      <p class="secretary-notice" id="secretary-notice">Answers are prepared locally; no live AI service is connected. The website does not send or save what you enter. If you choose to prepare an email request, the selected details are placed in your email app for you to review and send. Closing this panel clears it.</p>
+      <nav class="secretary-contact-actions" aria-label="Send prepared information or contact DarkBlaze">
+        <a id="secretary-email-handoff" href="mailto:admin@darkblaze.org">Email this reply to DarkBlaze</a>
+        <a id="secretary-whatsapp-handoff" href="https://wa.me/27847768997">Reply to DarkBlaze on WhatsApp</a>
+        <a id="secretary-phone-handoff" href="tel:+27847768997">Call +27 84 776 8997</a>
+      </nav>
+      <p class="secretary-handoff-notice">The Email and WhatsApp buttons above prepare only the assistant’s reply. An email request below includes the question and the details you choose. Nothing is sent until you review and send it in your app. Call opens your phone app and does not start a call. The website itself cannot send messages, confirmations, or place calls.</p>
+      <div class="conversation" id="conversation" role="log" aria-label="DarkBlaze assistant conversation" tabindex="0" aria-relevant="additions text">
+        <p class="message assistant-message">Hello. I can answer a small set of DarkBlaze questions using prepared replies.</p>
+      </div>
+      <form class="inquiry-form" id="inquiry-form" hidden>
+        <h3>Email request to DarkBlaze</h3>
+        <p class="form-hint">Choose what to include and prepare a draft. Select the link below to open your email app, then review and send it yourself. The website does not send or save it.</p>
+        <label for="inquiry-route">Request type</label>
+        <select id="inquiry-route" name="route">
+          <option value="question">General question</option>
+          <option value="email">Ask for an email reply</option>
+          <option value="callback">Request a callback</option>
+          <option value="location">Location-specific question</option>
+        </select>
+        <div class="conditional-field" id="email-field" hidden>
+          <label for="reply-email">Your email address <span>(so DarkBlaze can reply)</span></label>
+          <input id="reply-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="name@example.com">
+        </div>
+        <div class="conditional-field" id="phone-field" hidden>
+          <label for="callback-phone">Phone number <span>(required for a callback request)</span></label>
+          <input id="callback-phone" name="phone" type="tel" autocomplete="tel" maxlength="32" placeholder="Optional">
+        </div>
+        <div class="conditional-field" id="location-field" hidden>
+          <label for="coarse-location">Town or area <span>(no street address)</span></label>
+          <input id="coarse-location" name="location" type="text" autocomplete="off" maxlength="80" placeholder="Only if relevant to your question">
+        </div>
+        <button class="send-button confirm-preview" type="submit">Prepare email draft</button>
+        <p class="form-hint email-handoff-status" id="inquiry-email-status" role="status" aria-live="polite" hidden></p>
+        <a class="send-button inquiry-email-handoff" id="inquiry-email-handoff" href="mailto:admin@darkblaze.org" hidden>Open email app to review and send</a>
+      </form>
+    </aside>
+  </header>
+
+  <main class="stage" id="site-stage">
+    <div class="stage-frame">
+      <div class="reading-plane">
+        <div class="reading-content">
+          <div class="panel-heading">
+            <p class="eyebrow" id="panel-position">Home / 01 of 06</p>
+            <p class="draft-mark">Independent research &amp; development</p>
+          </div>
+
+          <section class="page-panel is-active home-showcase" id="home" data-panel="home" data-label="Home" aria-labelledby="home-title">
+            <p class="eyebrow spotlight-label">DarkBlaze Group · UCC</p>
+            <h1 id="home-title" tabindex="-1">Universal Constraint Computing.</h1>
+            <p class="lead">Make a system's purpose, permissions, and limits explicit before it acts.</p>
+            <figure class="ucc-emblem" aria-hidden="true"><span class="woven-mark"></span><figcaption>Intent · authority · boundaries</figcaption></figure>
+            <p class="supporting-copy">UCC is the lens for our work: describe what a system is asked to do, what it may do, and what must remain outside its reach. This is ongoing framework research; complete end-to-end enforcement is not yet established.</p>
+            <a class="text-link" href="#ucc" data-panel-link="ucc">Explore UCC research <span aria-hidden="true">→</span></a>
+            <a class="text-link" href="#work" data-panel-link="work">Explore the projects <span aria-hidden="true">→</span></a>
+          </section>
+
+          <section class="page-panel" id="work" data-panel="work" data-label="Work" aria-labelledby="work-title">
+            <h1 id="work-title" tabindex="-1">From system foundations to the screen in front of you.</h1>
+            <p class="lead">Our work spans system constraints, operating-system foundations, adaptive interfaces, and the HNDEN neural-lattice visual exploration.</p>
+            <div class="project-finder">
+              <label for="project-search">Find a project</label>
+              <div class="project-search-row">
+                <input id="project-search" type="search" autocomplete="off" spellcheck="false" placeholder="Try “Rosetta” or “memory”" aria-describedby="project-search-help project-search-status">
+                <button id="project-search-clear" type="button" hidden>Clear</button>
+              </div>
+              <p class="project-search-help" id="project-search-help">Search project names, purposes, and current work. This search runs only in this browser tab.</p>
+              <p class="project-search-status" id="project-search-status" role="status" aria-live="polite">Showing all 8 projects.</p>
+            </div>
+            <div class="project-list">
+              <a class="project-overview" href="#ucc" data-panel-link="ucc" data-project-search="ucc universal constraint computing framework system actions limits intent computing">
+                <svg class="overview-glyph glyph-constraint" viewBox="0 0 72 56" aria-hidden="true"><path d="M12 16 36 5l24 11v25L36 52 12 41Z M12 16l24 12 24-12 M36 28v24 M23 11l24 12"/><circle cx="36" cy="28" r="4"/></svg>
+                <span><strong>Universal Constraint Computing</strong><small>Describe a system's purpose, allowed actions, and limits before it acts.</small></span>
+              </a>
+              <a class="project-overview" href="#senseos" data-panel-link="senseos" data-project-search="senseos operating system software boot computer programs files devices">
+                <svg class="overview-glyph glyph-os" viewBox="0 0 72 56" aria-hidden="true"><path d="M8 45h56M14 39V17h44v22M20 33h9V22h-9zM34 33h9V22h-9zM48 33h9V22h-9z M36 17V8"/><circle cx="36" cy="8" r="3"/></svg>
+                <span><strong>SenseOS</strong><small>The foundational software that starts a computer and manages programs, files, and devices.</small></span>
+              </a>
+              <a class="project-overview" href="#senseui" data-panel-link="senseui" data-project-search="senseui adaptive interface workspace screen tools content">
+                <svg class="overview-glyph glyph-ui" viewBox="0 0 72 56" aria-hidden="true"><rect x="8" y="8" width="42" height="32" rx="3"/><path d="M16 17h24M16 24h14M16 32h20M50 20h14v27H29V40"/><circle cx="55" cy="41" r="2"/></svg>
+                <span><strong>SenseUI</strong><small>A shared visual workspace that aims to make different tools and content feel like one environment.</small></span>
+              </a>
+              <a class="project-overview" href="hnden.html" data-project-search="hnden neural lattice visual showcase projection">
+                <svg class="overview-glyph glyph-hnden" viewBox="0 0 72 56" aria-hidden="true"><path d="M36 4 59 17v22L36 52 13 39V17Z M13 17l23 13 23-13M36 30v22M20 9l32 38M52 9 20 47M5 30h62"/><circle cx="36" cy="30" r="3"/><circle cx="5" cy="30" r="2.5"/><circle cx="67" cy="30" r="2.5"/></svg>
+                <span><strong>HNDEN</strong><small>Open the separate neural-lattice visual showcase.</small></span>
+              </a>
+            </div>
+            <h2 class="supporting-projects-title">Smaller projects and supporting research</h2>
+            <p class="supporting-copy supporting-projects-intro">These focused experiments explore parts of the wider direction. They are at different stages and are not presented as one integrated product.</p>
+            <div class="supporting-project-list">
+              <article class="supporting-project" data-project-search="rosetta compiler translation intent representation rust machine code bounded compiler experiments">
+                <h3>Rosetta · bounded translation experiments</h3>
+                <p><strong>Why it exists:</strong> explore one checked representation linking structured intent, Rust output, and selected machine-code forms.</p>
+                <p><strong>Where it stands:</strong> a bounded Rust translation toolkit supports selected x86-64 and AArch64 instructions. Its documented CI covers listed test vectors; full machine-code semantic equivalence and a general compiler are not claimed.</p>
+                <p><strong>Useful help:</strong> independent ABI and instruction review, plus evidence-backed tests before adding supported forms.</p>
+              </article>
+              <article class="supporting-project" data-project-search="synapse rust agent host terminal interface codex oauth ai dock hive state model routing approval gated tools mcp server needle3 android arm64 provider integrations production release">
+                <h3>Synapse · agent coordination</h3>
+                <p><strong>Why it exists:</strong> explore how specialized agents and tools can coordinate around scoped work.</p>
+                <p><strong>Where it stands:</strong> Project documentation describes a Rust agent host with a terminal interface, Hive-backed state, model routing, and approval-gated tools. The current source labels itself a 1.0.0 release candidate; Android build and device acceptance, provider and OAuth validation, and other production release gates remain open.</p>
+                <p><strong>Useful help:</strong> Android ARM64 build and device acceptance, provider/OAuth and MCP integration review, and release validation.</p>
+              </article>
+              <article class="supporting-project" data-project-search="memorycore persistent memory curated context records rust local offline retrieval">
+                <h3>MemoryCore · curated project memory</h3>
+                <p><strong>Why it exists:</strong> keep selected project facts available across work sessions without requiring a hosted model or internet connection for storage and recall.</p>
+                <p><strong>Where it stands:</strong> a local Rust storage and retrieval component; retrieval is not a pretrained semantic model.</p>
+                <p><strong>Useful help:</strong> portability, retrieval-quality evaluation, and storage reliability review.</p>
+              </article>
+              <article class="supporting-project" data-project-search="nautilus model learning ucc exploratory notebook dataset neural research">
+                <h3>Nautilus · early model and learning experiments</h3>
+                <p><strong>Why it exists:</strong> investigate how constrained system ideas might inform small model and learning experiments.</p>
+                <p><strong>Where it stands:</strong> recovered notebook and initialized runtime artifacts; no trained model, complete source dataset, or completed experiment is verified.</p>
+                <p><strong>Useful help:</strong> reproduce the baseline, establish a licensed dataset, and report measurable results before making performance claims.</p>
+              </article>
+            </div>
+            <section class="funding-invitation" aria-labelledby="funding-title">
+              <h2 id="funding-title">Funding and practical support</h2>
+              <p>DarkBlaze is seeking early-stage support to sustain day-to-day engineering and move selected work through prototyping, testing, and independent review. Cash startup funding for operating runway is the priority; grants, cloud or compute credits, and engineering or commercial partners can also help.</p>
+              <p>Support would advance the existing architectural direction. We welcome additional ideas and technical challenge when they strengthen the work without requiring us to abandon that direction. Funding amount, legal entity details, and investment terms are not yet published.</p>
+              <div class="funding-contact" aria-labelledby="funding-contact-title">
+                <h3 id="funding-contact-title">Contact DarkBlaze about funding or collaboration</h3>
+                <address>
+                  <ul class="funding-contact-links">
+                    <li><a id="funding-contact-email" href="mailto:admin@darkblaze.org">Email admin@darkblaze.org</a></li>
+                    <li><a id="funding-contact-whatsapp" href="https://wa.me/27847768997">WhatsApp +27 84 776 8997</a></li>
+                    <li><a id="funding-contact-phone" href="tel:+27847768997">Call +27 84 776 8997</a></li>
+                  </ul>
+                </address>
+                <p class="funding-contact-privacy">These links open your email, WhatsApp, or phone app. If you contact DarkBlaze, your message or call goes through the service you choose; this website does not receive or store it. WhatsApp and your carrier apply their own data handling. Avoid sending sensitive information.</p>
+              </div>
+            </section>
+          </section>
+
+          <section class="page-panel project-panel" id="ucc" data-panel="ucc" data-label="UCC" data-nav="work" aria-labelledby="ucc-title">
+            <p class="eyebrow">01 · Framework research</p>
+            <h1 id="ucc-title" tabindex="-1">Universal Constraint Computing</h1>
+            <figure class="scale-figure">
+              <svg class="scale-diagram diagram-constraint" viewBox="0 0 600 132" role="img" aria-labelledby="ucc-scale-title ucc-scale-desc"><title id="ucc-scale-title">UCC from one request to a bounded system</title><desc id="ucc-scale-desc">A single intent grows into a checked action plan and then a larger system boundary.</desc><path class="diagram-line" d="M92 62h416"/><path class="diagram-shape" d="M54 51 92 33l38 18v31L92 101 54 82Z M54 51l38 19 38-19 M92 70v31"/><circle class="diagram-point" cx="92" cy="70" r="5"/><path class="diagram-shape" d="M243 46 282 27l39 19v34l-39 19-39-19Z M243 46l39 20 39-20 M282 66v33 M261 37l39 20"/><circle class="diagram-point" cx="282" cy="66" r="6"/><path class="diagram-shape" d="M433 39 480 16l47 23v43l-47 23-47-23Z M433 39l47 24 47-24 M480 63v42 M455 28l50 26 M455 97l50-26"/><circle class="diagram-point" cx="480" cy="63" r="7"/></svg>
+              <figcaption class="scale-labels"><span>One intent</span><span>Checked action plan</span><span>System-wide limits</span></figcaption>
+            </figure>
+            <h2>In plain terms</h2>
+            <p class="lead">Think of a clear instruction paired with guardrails: what the system is being asked to do, what actions are allowed, and what must stay off-limits.</p>
+            <h2>Technical view</h2>
+            <p class="supporting-copy">UCC research describes intent, context, possible effects, uncertainty, authority, and resource limits so a proposed action can be checked before execution. Complete end-to-end enforcement is not yet established.</p>
+          </section>
+
+          <section class="page-panel project-panel" id="senseos" data-panel="senseos" data-label="SenseOS" data-nav="work" aria-labelledby="senseos-title">
+            <p class="eyebrow">02 · Operating-system research</p>
+            <h1 id="senseos-title" tabindex="-1">SenseOS</h1>
+            <figure class="scale-figure">
+              <svg class="scale-diagram diagram-os" viewBox="0 0 600 132" role="img" aria-labelledby="senseos-scale-title senseos-scale-desc"><title id="senseos-scale-title">SenseOS from a running program to a whole computer system</title><desc id="senseos-scale-desc">One program depends on core services, which sit inside the larger operating system.</desc><path class="diagram-line" d="M92 62h416"/><rect class="diagram-shape" x="61" y="43" width="62" height="40" rx="4"/><path class="diagram-accent-line" d="M72 54h40M72 64h26M72 74h34"/><rect class="diagram-shape" x="246" y="34" width="72" height="56" rx="5"/><path class="diagram-accent-line" d="M258 48h16v12h-16zM287 48h19v4h-19zM287 57h19v4h-19zM258 68h48v10h-48z"/><path class="diagram-shape" d="M441 28h78v66h-78zM452 39h56v43h-56z"/><path class="diagram-accent-line" d="M463 50h34M463 59h26M463 68h30"/></svg>
+              <figcaption class="scale-labels"><span>One program</span><span>Core services</span><span>Whole operating system</span></figcaption>
+            </figure>
+            <h2>In plain terms</h2>
+            <p class="lead">An operating system is the foundation underneath apps. It starts the machine, decides how programs run, organizes files, and connects software to hardware. SenseOS is an experimental effort to build that foundation—not just another app.</p>
+            <h2>Technical view</h2>
+            <p class="supporting-copy">Current prototypes have tested pieces of boot handoff, persistent storage, program admission, filesystem access, capability checks, and interface input. These are partial paths; SenseOS is not a complete or production-ready general-purpose operating system.</p>
+          </section>
+
+          <section class="page-panel project-panel" id="senseui" data-panel="senseui" data-label="SenseUI" data-nav="work" aria-labelledby="senseui-title">
+            <p class="eyebrow">03 · Interface research</p>
+            <h1 id="senseui-title" tabindex="-1">SenseUI</h1>
+            <figure class="scale-figure">
+              <svg class="scale-diagram diagram-ui" viewBox="0 0 600 132" role="img" aria-labelledby="senseui-scale-title senseui-scale-desc"><title id="senseui-scale-title">SenseUI from a piece of content to an adaptive workspace</title><desc id="senseui-scale-desc">A single information item is arranged into one workspace and then adapted across display sizes.</desc><path class="diagram-line" d="M92 62h416"/><rect class="diagram-shape" x="74" y="44" width="36" height="36" rx="3"/><path class="diagram-accent-line" d="M82 54h20M82 63h15M82 72h18"/><rect class="diagram-shape" x="248" y="34" width="68" height="54" rx="5"/><path class="diagram-accent-line" d="M258 45h48M258 54h25M258 64h40M258 74h31"/><rect class="diagram-shape" x="431" y="31" width="55" height="61" rx="5"/><rect class="diagram-shape" x="493" y="45" width="31" height="47" rx="4"/><path class="diagram-accent-line" d="M440 42h36M440 50h26M440 59h32M440 68h22M440 77h30M500 54h17M500 62h13"/></svg>
+              <figcaption class="scale-labels"><span>One item</span><span>Shared workspace</span><span>Different screens</span></figcaption>
+            </figure>
+            <h2>In plain terms</h2>
+            <p class="lead">SenseUI is the part people see and operate: a single, adaptable workspace for programs, information, and media instead of a pile of unrelated screens.</p>
+            <h2>Technical view</h2>
+            <p class="supporting-copy">Rust-based interface libraries and runtime foundations are in development. The intended design can arrange content from different system components, but a complete live desktop compositor and protected system boundary have not yet been demonstrated.</p>
+          </section>
+
+          <section class="page-panel about-panel" id="about" data-panel="about" data-label="About" aria-labelledby="about-title">
+            <p class="eyebrow">About DarkBlaze Group</p>
+            <h1 id="about-title" tabindex="-1">People, purpose, and the work ahead.</h1>
+            <div class="about-intro">
+              <figure class="founder-portrait">
+                <img src="assets/brand/founder-portrait.png" alt="Portrait of the DarkBlaze Group founder" width="1024" height="1536" loading="lazy" decoding="async">
+
+              </figure>
+              <div class="about-copy">
+                <p class="founder-name">T. Billy Ekkerd</p>
+                <p class="supporting-copy">I began BlackBlaze in 2011 as a graphic design group, creating websites and corporate identities. After working in real estate, I moved into neural-network design, research, and engineering, then restarted the group as DarkBlaze in 2025. That path led me to formal-verification experiments, including working models of seL4 and Muen and a BIOS-to-Qwen 2.5 handoff on a laptop. Today, DarkBlaze explores how computing can be made more precise and verifiable.</p>
+                <blockquote class="founder-quote">“At DarkBlaze, we ask how computing can be made as precise and verifiable as the laws that shape the natural sciences.”</blockquote>
+                <p class="quote-attribution">Founder perspective · paraphrased</p>
+              </div>
+            </div>
+            <h2>How we work</h2>
+            <p class="lead">DarkBlaze uses individual directives to make full use of each person's skills.</p>
+            <p class="supporting-copy">Every contribution matters, from day-to-day work to executive responsibilities. DarkBlaze has no company-level ranks or titles. Professional designations such as Dr., Professor, or Adjudicator remain personal credentials.</p>
+            <h2>Our work and your privacy</h2>
+            <p class="supporting-copy">We distinguish demonstrated prototypes from research goals and unfinished work. Display colors use the browser's local clock in Automatic mode; Light and Dark remain available as visit-only overrides. When the browser exposes its Data Saver setting and it is enabled, the welcome animation and autoplay video are skipped while static imagery remains; that setting is read locally and is not sent or stored. The site requests location only after you press Continue. If allowed, longitude remains in page memory while this page is open for local day/night colors; closing or reloading clears it. The site does not save or transmit the longitude, and you can deny location and still enter. Your browser may remember its own permission setting; the site does not save consent. The site does not request orientation, motion, camera, or microphone access. It sets no cookies or analytics. Hosting-provider connection logging still needs review before we make claims about IP-address handling.</p>
+          </section>
+
+          <div class="panel-controls" role="group" aria-label="Section controls">
+            <button class="step-control" type="button" data-step="-1" aria-label="Previous section"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="icons.svg#icon-chevron-left"></use></svg><span>Previous</span></button>
+            <span class="key-hint">Arrow keys or navigation</span>
+            <button class="step-control" type="button" data-step="1" aria-label="Next section"><span>Next</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="icons.svg#icon-chevron-right"></use></svg></button>
+          </div>
+        </div>
+      </div>
+      <nav class="edge-nav" aria-label="Explore adjacent sections">
+        <button class="edge-control edge-previous" type="button" data-step="-1" aria-label="Previous section"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="icons.svg#icon-chevron-left"></use></svg></button>
+        <button class="edge-control edge-next" type="button" data-step="1" aria-label="Next section"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="icons.svg#icon-chevron-right"></use></svg></button>
+      </nav>
+    </div>
+  </main>
+
+  <noscript><p class="noscript-note">JavaScript is off. All project and About sections remain available as a normal scrolling page. The local clock and section controls require JavaScript.</p></noscript>
+</body>
+</html>
+
+
+
+
