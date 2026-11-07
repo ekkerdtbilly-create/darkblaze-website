@@ -1,3 +1,7 @@
+/* █║▌│█║▌│█DARKBLAZE GROUP
+AI_CONTEXT: {"generated_at_utc":"2026-11-07T21:33:33Z","agent":"OpenAI Codex /root; Python 3 R15.1 styling update","purpose":"Reduce the visible AI badge so the DarkBlaze woven mark remains legible, and remove Home/Work/About separators.","behavior":"Keeps the 1.5rem button hit target while rendering a 1rem desktop badge and .88rem compact-phone badge; removes vertical nav borders and their extra padding.","relationships":["darkblaze-website@2e4f03f2b052923e681f8bee50d5ee5318ae89ad","index.html#secretary-toggle","PUBLICATION-MANIFEST.md","GitHub Pages main root"],"schema":"CSS with provenance in a CSS comment and closing marker; body SHA-256 excludes the header and final marker","validation":{"sha256_scope":"UTF-8 body after first three provenance lines and before terminal marker; trailing body newlines excluded","command":"Python 3 provenance JSON/hash and CSS selector assertions; git diff --check; no browser tests run","environment":"Android Termux; darkblaze-website publication checkout","timestamp_utc":"2026-11-07T21:33:33Z","result":"PASS: intended badge sizing, preserved hit target, hover containment, and no-divider rules are present; archive hashes regenerated. Browser QA not rerun.","content_sha256":"99185279b94fb3a28116968247552524c56869938e9fd1f63069e24ff368a777"}}
+*/
+
 
 
 
@@ -579,7 +583,6 @@ body.entry-gate-open .welcome-sequence { visibility: hidden; }
 .site-nav { grid-column: 2; grid-row: 1; gap: clamp(.35rem,.7vw,.65rem); }
 .site-nav::before, .site-nav::after, .site-nav a:not(:first-child)::before { color: var(--quiet); font-size: .72rem; }
 .site-nav::before, .site-nav::after, .site-nav a:not(:first-child)::before { content: none; }
-.site-nav a:not(:first-child) { border-left: 1px solid rgba(125,145,170,.32); padding-left: clamp(.35rem,.6vw,.55rem); }
 .reception-status { grid-column: 3; grid-row: 1; min-width: 0; gap: .32rem; }
 .reception-status::after { content: none; }
 .status-divider { display: inline-block; width: 1px; height: .82rem; flex: 0 0 1px; background: rgba(125,145,170,.42); font-size: 0; }
@@ -621,7 +624,7 @@ body.entry-gate-open .welcome-sequence { visibility: hidden; }
   body.secretary-open .reception-status { grid-row: 4; }
 }
 
-/* R15: center the ready-state assistant control inside the flipping weave mark. */
+/* R15.1: keep a full-size tap target around a compact AI badge within the weave. */
 .brand-trinity-wrap { position: relative; display: grid; flex: 0 0 auto; place-items: center; }
 .brand-mark-home { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50%; }
 .brand-mark-home:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
@@ -630,18 +633,26 @@ body.entry-gate-open .welcome-sequence { visibility: hidden; }
   position: absolute; inset: 50% auto auto 50%; z-index: 2;
   display: grid; width: 1.5rem; min-width: 1.5rem; min-height: 1.5rem;
   place-items: center; transform: translate(-50%,-50%);
-  border: 1px solid rgba(255,255,255,.76); border-radius: 50%; padding: 0;
-  color: #fff; background: #475569;
-  box-shadow: 0 1px 7px rgba(0,0,0,.62);
-  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  border: 0; border-radius: 50%; padding: 0;
+  color: #fff; background: transparent; box-shadow: none;
+  transition: transform 180ms ease;
 }
-.brand-cluster .secretary-toggle:not(:disabled) { color: #fff; background: #16803c; box-shadow: 0 0 0 1px rgba(17,55,29,.85), 0 0 10px rgba(34,197,94,.72); }
-.brand-cluster .secretary-toggle:not(:disabled):hover { background: #16a34a; box-shadow: 0 0 0 1px rgba(17,55,29,.85), 0 0 14px rgba(34,197,94,.9); }
 .brand-cluster .secretary-toggle:focus-visible { outline: 2px solid #86efac; outline-offset: 2px; }
 .brand-cluster .secretary-toggle[hidden] { display: none; }
-.brand-cluster .secretary-ai { color: #fff; font-size: .52rem; text-shadow: 0 1px 2px rgba(0,0,0,.7); }
+.brand-cluster .secretary-ai {
+  display: grid; width: 1rem; height: 1rem; place-items: center;
+  border: 1px solid rgba(255,255,255,.76); border-radius: 50%;
+  color: #fff; background: #475569; font-size: .38rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,.7); box-shadow: 0 1px 5px rgba(0,0,0,.58);
+  transition: background-color 180ms ease, box-shadow 180ms ease;
+}
+.brand-cluster .secretary-toggle:not(:disabled) .secretary-ai { background: #16803c; box-shadow: 0 0 0 1px rgba(17,55,29,.85), 0 0 8px rgba(34,197,94,.68); }
+.brand-cluster .secretary-toggle:not(:disabled):hover .secretary-ai { background: #16a34a; box-shadow: 0 0 0 1px rgba(17,55,29,.85), 0 0 11px rgba(34,197,94,.82); }
+.brand-cluster .secretary-toggle:hover { background: transparent; box-shadow: none; }
 @media (max-width: 420px) {
   .brand-trinity-wrap { width: 2rem; height: 2rem; }
   .brand-cluster .secretary-toggle { width: 1.5rem; min-width: 1.5rem; min-height: 1.5rem; }
-  .brand-cluster .secretary-ai { font-size: .47rem; }
+  .brand-cluster .secretary-ai { width: .88rem; height: .88rem; font-size: .34rem; }
 }
+
+/* 𒀭 */
