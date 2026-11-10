@@ -1,0 +1,14 @@
+<!-- █║▌│█║▌│█DARKBLAZE GROUP
+AI_CONTEXT: {"generated_at_utc":"2026-11-09T20:12:15Z","agent":"OpenAI Codex /root; Python 3 Unsplash asset provenance writer","purpose":"Record origin, license evidence, transformation, dimensions, size, and integrity for senseui-glass-surface.png.","behavior":"Companion manifest for an externally sourced PNG; the site credits the photographer and labels the visual as illustrative.","relationships":["senseui-glass-surface.png","https://unsplash.com/photos/abstract-iridescent-glass-shapes-with-rainbow-reflections-nzkGVjsIkG8","https://unsplash.com/@dzo_renders","https://unsplash.com/license","apps/darkblaze-r16-site/src/main.rs","apps/darkblaze-r16-site/src/lib.rs"],"schema":{"format":"Markdown companion provenance manifest with HTML-comment JSON header and closing marker","asset":"senseui-glass-surface.png","media_type":"image/png","dimensions_px":[1200,675],"byte_length":648732,"asset_sha256":"45eedc192b04a38e5ff5e17bb3406ef2676538467615fa6346987fdaf41f6eeb","source_page":"https://unsplash.com/photos/abstract-iridescent-glass-shapes-with-rainbow-reflections-nzkGVjsIkG8","download_url":"https://images.unsplash.com/photo-1770173047431-1af521ed5481?fit=crop&crop=entropy&fm=png&h=675&w=1200","license_url":"https://unsplash.com/license","sha256_scope":"UTF-8 manifest body after the three-line HTML header and before the terminal marker; surrounding newlines excluded","content_sha256":"b83b6dcdd2d82f14f708a648f5c6d82d330417b64417b5fece3741d5f3591ca3","validation":{"command":"Python 3 verifies PNG signature, IHDR dimensions, byte length, SHA-256 and manifest body hash","environment":"Mother Workspace Android Termux; source PNG downloaded on Dell Vostro 3520","timestamp_utc":"2026-11-09T20:12:15Z","result":"PASS: PNG signature, dimensions, byte length and SHA-256 match the recorded asset; companion body hash refreshed."}},"content_sha256":"b83b6dcdd2d82f14f708a648f5c6d82d330417b64417b5fece3741d5f3591ca3"}
+-->
+# Provenance: senseui-glass-surface.png
+
+- Creator: Dzo; profile: [Dzo](https://unsplash.com/@dzo_renders).
+- Source image: [https://unsplash.com/photos/abstract-iridescent-glass-shapes-with-rainbow-reflections-nzkGVjsIkG8](https://unsplash.com/photos/abstract-iridescent-glass-shapes-with-rainbow-reflections-nzkGVjsIkG8).
+- Download URL: `https://images.unsplash.com/photo-1770173047431-1af521ed5481?fit=crop&crop=entropy&fm=png&h=675&w=1200`
+- License: Unsplash License; the source page marked this image free to use under that license when inspected on 2026-11-09. Attribution is included in the website captions.
+- Local transformation: CDN crop/resample to 1200 × 675 PNG using `fit=crop`, `crop=entropy`, `fm=png`, `w=1200`, and `h=675`; no further edits.
+- Website context: Abstract translucent glass forms with iridescent reflections; used as an illustrative surface-design visual.
+- File: 648732 bytes; SHA-256 `45eedc192b04a38e5ff5e17bb3406ef2676538467615fa6346987fdaf41f6eeb`.
+
+<!-- 𒀭 -->

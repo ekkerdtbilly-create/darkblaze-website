@@ -1,0 +1,14 @@
+<!-- █║▌│█║▌│█DARKBLAZE GROUP
+AI_CONTEXT: {"generated_at_utc":"2026-11-09T20:12:15Z","agent":"OpenAI Codex /root; Python 3 Unsplash asset provenance writer","purpose":"Record origin, license evidence, transformation, dimensions, size, and integrity for senseos-circuit-concept.png.","behavior":"Companion manifest for an externally sourced PNG; the site credits the photographer and labels the visual as illustrative.","relationships":["senseos-circuit-concept.png","https://unsplash.com/photos/blue-circuit-board-jXd2FSvcRr8","https://unsplash.com/@umby","https://unsplash.com/license","apps/darkblaze-r16-site/src/main.rs","apps/darkblaze-r16-site/src/lib.rs"],"schema":{"format":"Markdown companion provenance manifest with HTML-comment JSON header and closing marker","asset":"senseos-circuit-concept.png","media_type":"image/png","dimensions_px":[1200,675],"byte_length":1452292,"asset_sha256":"95e7dd461ac8b32f850ded3a80cfb368351607966179d2dda762c45171298866","source_page":"https://unsplash.com/photos/blue-circuit-board-jXd2FSvcRr8","download_url":"https://images.unsplash.com/photo-1562408590-e32931084e23?fit=crop&crop=entropy&fm=png&h=675&w=1200","license_url":"https://unsplash.com/license","sha256_scope":"UTF-8 manifest body after the three-line HTML header and before the terminal marker; surrounding newlines excluded","content_sha256":"f111efdc29d10e5e591329df1f9eadb5a6f1108c6dee55d1dd16749b497bc149","validation":{"command":"Python 3 verifies PNG signature, IHDR dimensions, byte length, SHA-256 and manifest body hash","environment":"Mother Workspace Android Termux; source PNG downloaded on Dell Vostro 3520","timestamp_utc":"2026-11-09T20:12:15Z","result":"PASS: PNG signature, dimensions, byte length and SHA-256 match the recorded asset; companion body hash refreshed."}},"content_sha256":"f111efdc29d10e5e591329df1f9eadb5a6f1108c6dee55d1dd16749b497bc149"}
+-->
+# Provenance: senseos-circuit-concept.png
+
+- Creator: Umberto; profile: [Umberto](https://unsplash.com/@umby).
+- Source image: [https://unsplash.com/photos/blue-circuit-board-jXd2FSvcRr8](https://unsplash.com/photos/blue-circuit-board-jXd2FSvcRr8).
+- Download URL: `https://images.unsplash.com/photo-1562408590-e32931084e23?fit=crop&crop=entropy&fm=png&h=675&w=1200`
+- License: Unsplash License; the source page marked this image free to use under that license when inspected on 2026-11-09. Attribution is included in the website captions.
+- Local transformation: CDN crop/resample to 1200 × 675 PNG using `fit=crop`, `crop=entropy`, `fm=png`, `w=1200`, and `h=675`; no further edits.
+- Website context: A close view of a blue and orange electronic circuit board. It is illustrative context, not SenseOS hardware.
+- File: 1452292 bytes; SHA-256 `95e7dd461ac8b32f850ded3a80cfb368351607966179d2dda762c45171298866`.
+
+<!-- 𒀭 -->

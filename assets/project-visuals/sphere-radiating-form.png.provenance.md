@@ -1,0 +1,14 @@
+<!-- █║▌│█║▌│█DARKBLAZE GROUP
+AI_CONTEXT: {"generated_at_utc":"2026-11-09T20:12:15Z","agent":"OpenAI Codex /root; Python 3 Unsplash asset provenance writer","purpose":"Record origin, license evidence, transformation, dimensions, size, and integrity for sphere-radiating-form.png.","behavior":"Companion manifest for an externally sourced PNG; the site credits the photographer and labels the visual as illustrative.","relationships":["sphere-radiating-form.png","https://unsplash.com/photos/abstract-blue-and-orange-radiating-pattern-SXaZ0r1se8M","https://unsplash.com/@marpicek","https://unsplash.com/license","apps/darkblaze-r16-site/src/main.rs","apps/darkblaze-r16-site/src/lib.rs"],"schema":{"format":"Markdown companion provenance manifest with HTML-comment JSON header and closing marker","asset":"sphere-radiating-form.png","media_type":"image/png","dimensions_px":[1200,675],"byte_length":1138814,"asset_sha256":"32fd779aa29f4e45c41bffcd7bed80c7426d0729a0369b1d95a89e533d058e30","source_page":"https://unsplash.com/photos/abstract-blue-and-orange-radiating-pattern-SXaZ0r1se8M","download_url":"https://images.unsplash.com/photo-1755456068384-cbbc30f632d4?fit=crop&crop=entropy&fm=png&h=675&w=1200","license_url":"https://unsplash.com/license","sha256_scope":"UTF-8 manifest body after the three-line HTML header and before the terminal marker; surrounding newlines excluded","content_sha256":"6a7346b924406f92a80a64b1be05a8e3c46297c73a458944ef8f098d412b16f0","validation":{"command":"Python 3 verifies PNG signature, IHDR dimensions, byte length, SHA-256 and manifest body hash","environment":"Mother Workspace Android Termux; source PNG downloaded on Dell Vostro 3520","timestamp_utc":"2026-11-09T20:12:15Z","result":"PASS: PNG signature, dimensions, byte length and SHA-256 match the recorded asset; companion body hash refreshed."}},"content_sha256":"6a7346b924406f92a80a64b1be05a8e3c46297c73a458944ef8f098d412b16f0"}
+-->
+# Provenance: sphere-radiating-form.png
+
+- Creator: Marek Pavlík; profile: [Marek Pavlík](https://unsplash.com/@marpicek).
+- Source image: [https://unsplash.com/photos/abstract-blue-and-orange-radiating-pattern-SXaZ0r1se8M](https://unsplash.com/photos/abstract-blue-and-orange-radiating-pattern-SXaZ0r1se8M).
+- Download URL: `https://images.unsplash.com/photo-1755456068384-cbbc30f632d4?fit=crop&crop=entropy&fm=png&h=675&w=1200`
+- License: Unsplash License; the source page marked this image free to use under that license when inspected on 2026-11-09. Attribution is included in the website captions.
+- Local transformation: CDN crop/resample to 1200 × 675 PNG using `fit=crop`, `crop=entropy`, `fm=png`, `w=1200`, and `h=675`; no further edits.
+- Website context: Abstract blue and orange radiating pattern; a visual metaphor only, not a Sphere data-flow or mirroring result.
+- File: 1138814 bytes; SHA-256 `32fd779aa29f4e45c41bffcd7bed80c7426d0729a0369b1d95a89e533d058e30`.
+
+<!-- 𒀭 -->
