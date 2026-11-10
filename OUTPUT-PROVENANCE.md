@@ -1,18 +1,18 @@
 <!-- █║▌│█║▌│█DARKBLAZE GROUP
-AI_CONTEXT: {"agent":"darkblaze-r16-site Rust generator","behavior":"Lists output byte sizes and SHA-256 digests; source remains in the SenseUI Rust workspace.","generated_at_utc":"2026-11-10T05:09:56Z","purpose":"Record provenance and integrity for generated DarkBlaze R16 browser files.","relationships":["index.html","surface.css","surface.js","assets/brand/darkblaze-primary-logomark-144.png","assets/brand/darkblaze-primary-logomark-144.png.provenance.md","assets/brand/founder-portrait.png","assets/brand/founder-portrait.png.provenance.md","assets/brand/founder-portrait.webp","assets/brand/founder-portrait.webp.provenance.md","assets/fonts/Psionic.ttf","assets/fonts/Psionic.ttf.provenance.md","assets/project-visuals/hnden-brain-concept.png","assets/project-visuals/hnden-brain-concept.png.provenance.md","assets/project-visuals/senseos-circuit-concept.png","assets/project-visuals/senseos-circuit-concept.png.provenance.md","assets/project-visuals/senseui-glass-surface.png","assets/project-visuals/senseui-glass-surface.png.provenance.md","assets/project-visuals/sphere-radiating-form.png","assets/project-visuals/sphere-radiating-form.png.provenance.md"],"schema":{"content_sha256":"99162d8f008c7e02349dc699dafd20a0b6de5894a7009530f17b94cfd6cfff73","format":"Markdown companion manifest with HTML-comment provenance header and closing marker","sha256_scope":"UTF-8 body after provenance header and before terminal marker","validation":{"command":"SHA-256 each generated artifact and compare to this manifest","environment":"Rust generator runtime","result":"PASS: all generated output digests calculated from written bytes.","timestamp_utc":"2026-11-10T05:09:56Z"}}}
+AI_CONTEXT: {"agent":"darkblaze-r16-site Rust generator","behavior":"Lists output byte sizes and SHA-256 digests; source remains in the SenseUI Rust workspace.","generated_at_utc":"2026-11-10T08:53:46Z","purpose":"Record provenance and integrity for generated DarkBlaze R16.1 browser files.","relationships":["index.html","surface.css","surface.js","assets/brand/darkblaze-primary-logomark-144.png","assets/brand/darkblaze-primary-logomark-144.png.provenance.md","assets/brand/founder-portrait.png","assets/brand/founder-portrait.png.provenance.md","assets/brand/founder-portrait.webp","assets/brand/founder-portrait.webp.provenance.md","assets/fonts/Psionic.ttf","assets/fonts/Psionic.ttf.provenance.md","assets/project-visuals/hnden-brain-concept.png","assets/project-visuals/hnden-brain-concept.png.provenance.md","assets/project-visuals/senseos-circuit-concept.png","assets/project-visuals/senseos-circuit-concept.png.provenance.md","assets/project-visuals/senseui-glass-surface.png","assets/project-visuals/senseui-glass-surface.png.provenance.md","assets/project-visuals/sphere-radiating-form.png","assets/project-visuals/sphere-radiating-form.png.provenance.md"],"schema":{"content_sha256":"fdfff7c322ea1a68aa2d4454d5209eb91feaaa7fce4d3e31b806dee18933103c","format":"Markdown companion manifest with HTML-comment provenance header and closing marker","sha256_scope":"UTF-8 body after provenance header and before terminal marker","validation":{"command":"SHA-256 each generated artifact and compare to this manifest","environment":"Rust generator runtime","result":"PASS: all generated output digests calculated from written bytes.","timestamp_utc":"2026-11-10T08:53:46Z"}}}
 -->
 
-# Generated DarkBlaze R16 browser artifacts
+# Generated DarkBlaze R16.1 browser artifacts
 
 - Generator: `darkblaze-r16-site` (Rust/SenseUI source).
-- Generated at (UTC): `2026-11-10T05:09:56Z`.
+- Generated at (UTC): `2026-11-10T08:53:46Z`.
 - These files are browser outputs generated from the Rust source; they are not hand-maintained source files.
 
 ## Files
 
-- `index.html` — 302218 bytes — SHA-256 `5de13a81d1daedb56a4b5ff10c3042106be32d8bf432a03a5a923a8fc8e68d4d`
-- `surface.css` — 47563 bytes — SHA-256 `9aba9c7cb2ced06bb6a74c1d6bcf9fc8b4db3b378211a641f994d26a5cd2c8a2`
-- `surface.js` — 31698 bytes — SHA-256 `bac760a2e0a8ee7d6a7552831011c031659ca60b02f130b503deba264443420c`
+- `index.html` — 303833 bytes — SHA-256 `cf5cf4507e4084dd72777317f412ae3d854df0db821dbe2fde6bb3c4a6048ae0`
+- `surface.css` — 52265 bytes — SHA-256 `1c60124719336b4bce5186afb8a4ecb6f01a51bda7f11e843c7f50d18cbc3fb3`
+- `surface.js` — 36548 bytes — SHA-256 `692c18dad9b2b8364fefa315d3f18be1f271eb01fc86da2503f76db5d4091c7b`
 - `assets/brand/darkblaze-primary-logomark-144.png` — 16177 bytes — SHA-256 `f14d165af3330c064fd97a159532746742c8790a1e3aca57a69937f2d7001d76`
 - `assets/brand/darkblaze-primary-logomark-144.png.provenance.md` — 1615 bytes — SHA-256 `9b257f181ebdfcd3ff64b0964174ec7ba6779e94cefcc95107af7b6b8a0669d9`
 - `assets/brand/founder-portrait.png` — 1753518 bytes — SHA-256 `338bbc3a376d43a96a47a8fc3a7bf0e9c6934d8d0d830fa8ddc15ee8588a3dbb`

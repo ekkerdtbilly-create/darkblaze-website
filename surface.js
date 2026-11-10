@@ -137,14 +137,13 @@
   const assistant = document.getElementById('assistant-dialog');
   const trigger = document.querySelector('[data-senseui-ai-toggle]');
   const assistantConversation = [];
-  const clearConversation = document.getElementById('assistant-clear');
-  function setAiStatus(status, title) {
-    trigger.dataset.aiStatus = status;
-    trigger.title = title;
-    trigger.setAttribute('aria-label', 'Open DarkBlaze assistant. ' + title);
-  }
+  const assistantThread = document.getElementById('assistant-thread');
+  const assistantMessages = document.getElementById('assistant-messages');
+  const assistantEmptyState = document.getElementById('assistant-empty-state');
+  const assistantStatus = document.getElementById('assistant-status');
+  const assistantForm = document.getElementById('assistant-composer');
   const question = document.getElementById('assistant-question');
-  const reply = document.querySelector('[data-senseui-ai-reply]');
+  const clearConversation = document.getElementById('assistant-clear');
   const assistantActions = document.getElementById('assistant-actions');
   const assistantSubmit = document.getElementById('assistant-submit');
   const emailReply = document.getElementById('assistant-email-reply');
@@ -160,6 +159,42 @@
   const requestHandoff = document.getElementById('request-email-handoff');
   let latestQuestion = '';
   let latestReply = '';
+  let assistantBusy = false;
+  function setAiStatus(status, title) {
+    trigger.dataset.aiStatus = status;
+    trigger.title = title;
+    trigger.setAttribute('aria-label', 'Open DarkBlaze assistant. ' + title);
+  }
+  setAiStatus(SITE_AI_ENDPOINT ? 'configured' : 'local', SITE_AI_ENDPOINT ? 'AI service is configured; availability is checked when you send a message' : 'Prepared site responses are available; no live model is connected');
+  function appendAssistantMessage(role, text) {
+    const article = document.createElement('article');
+    article.className = `assistant-message assistant-message-${role}`;
+    article.dataset.messageRole = role;
+    const label = document.createElement('span');
+    label.className = 'assistant-message-label';
+    label.textContent = role === 'user' ? 'You' : 'Site Secretary';
+    const copy = document.createElement('p');
+    copy.className = 'assistant-message-copy';
+    copy.textContent = text;
+    article.append(label, copy);
+    assistantMessages.append(article);
+    assistantEmptyState.hidden = true;
+    assistantThread.scrollTop = assistantThread.scrollHeight;
+    return {article, copy};
+  }
+  function assistantIsNearBottom() {
+    return assistantThread.scrollHeight - assistantThread.scrollTop - assistantThread.clientHeight < 96;
+  }
+  function resizeAssistantComposer() {
+    question.style.height = 'auto';
+    question.style.height = `${Math.min(question.scrollHeight, 144)}px`;
+  }
+  function syncAssistantViewport() {
+    const viewport = window.visualViewport;
+    if (!viewport || !assistant.open) return;
+    assistant.style.setProperty('--assistant-viewport-height', `${Math.max(0, Math.min(window.innerHeight, viewport.height))}px`);
+    assistant.style.setProperty('--assistant-viewport-top', `${Math.max(0, viewport.offsetTop)}px`);
+  }
   const reception = document.querySelector('.reception-status');
   const localTime = document.getElementById('local-time');
   const themeChoices = [...document.querySelectorAll('[data-theme-mode]')];
@@ -322,31 +357,31 @@
     if (open) {
       if (!assistant.open) assistant.showModal();
       trigger.setAttribute('aria-expanded', 'true');
-      question.focus();
+      syncAssistantViewport();
+      window.requestAnimationFrame(() => {
+        question.focus({preventScroll: true});
+        resizeAssistantComposer();
+        assistantThread.scrollTop = assistantThread.scrollHeight;
+      });
       return;
     }
     if (assistant.open) assistant.close();
     trigger.setAttribute('aria-expanded', 'false');
-    question.value = '';
-    latestQuestion = '';
-    latestReply = '';
-    reply.textContent = 'Replies stay in this browser.';
-    assistantActions.replaceChildren();
-    assistantActions.hidden = true;
-    emailReply.hidden = true;
-    whatsappReply.hidden = true;
-    requestDetails.hidden = true;
-    requestDetails.open = false;
-    requestForm.reset();
-    updateRequestType();
+    assistant.style.removeProperty('--assistant-viewport-height');
+    assistant.style.removeProperty('--assistant-viewport-top');
     trigger.focus();
   }
   clearConversation.addEventListener('click', () => {
+    if (assistantBusy) return;
     assistantConversation.length = 0;
+    assistantMessages.replaceChildren(assistantEmptyState);
+    assistantEmptyState.hidden = false;
+    assistantEmptyState.textContent = 'Conversation cleared. What would you like to talk about?';
+    assistantStatus.textContent = 'Conversation cleared.';
     latestQuestion = '';
     latestReply = '';
     question.value = '';
-    reply.textContent = 'Conversation cleared. What would you like to talk about?';
+    resizeAssistantComposer();
     assistantActions.replaceChildren();
     assistantActions.hidden = true;
     emailReply.hidden = true;
@@ -361,8 +396,25 @@
     event.preventDefault();
     setAssistant(false);
   });
+  assistant.addEventListener('close', () => {
+    trigger.setAttribute('aria-expanded', 'false');
+    assistant.style.removeProperty('--assistant-viewport-height');
+    assistant.style.removeProperty('--assistant-viewport-top');
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', syncAssistantViewport);
+    window.visualViewport.addEventListener('scroll', syncAssistantViewport);
+    window.addEventListener('resize', syncAssistantViewport, {passive: true});
+  }
+  question.addEventListener('input', resizeAssistantComposer);
+  question.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+      event.preventDefault();
+      if (assistantForm.requestSubmit) assistantForm.requestSubmit();
+    }
+  });
   function assistantFocusableElements() {
-    return [...assistant.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')]
+    return [...assistant.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')]
       .filter(element => !element.closest('[hidden], [inert]') && element.getClientRects().length > 0);
   }
   assistant.addEventListener('keydown', event => {
@@ -418,11 +470,11 @@
     if (location.hash === '#surface-content') return;
     project(fromLocation(), false, true);
   });
-  document.querySelector('[data-senseui-ai-form]').addEventListener('submit', async event => {
-    event.preventDefault();
+  async function sendAssistantMessage() {
+    if (assistantBusy) return;
     latestQuestion = question.value.trim();
+    if (!latestQuestion) return;
     const prompt = latestQuestion.toLowerCase();
-    if (!prompt) return;
     const normalizedPrompt = ` ${prompt.replace(/[^a-z0-9]+/g, ' ').trim()} `;
     let preparedReply = preparedReplies.find(entry =>
       entry.phrases.some(phrase => prompt.includes(phrase)) ||
@@ -438,22 +490,32 @@
           entry.words.some(word => normalizedPrevious.includes(` ${word} `)));
       }
     }
+    const userMessage = appendAssistantMessage('user', latestQuestion).article;
+    const assistantMessage = appendAssistantMessage('assistant', 'Preparing a reply…').article;
+    assistantMessage.classList.add('is-pending');
+    const reply = assistantMessage.querySelector('.assistant-message-copy');
+    const conversation = assistantConversation.slice(-8);
+    let completed = false;
+    question.value = '';
+    resizeAssistantComposer();
     assistantActions.replaceChildren();
     assistantActions.hidden = true;
+    assistantStatus.textContent = 'Your message was sent. The Site Secretary is preparing a reply.';
+    assistantBusy = true;
+    assistantSubmit.disabled = true;
+    clearConversation.disabled = true;
     if (SITE_AI_ENDPOINT) {
-      setAiStatus('checking', 'Live AI endpoint configured · checking with this request');
-      assistantSubmit.disabled = true;
-      assistantSubmit.textContent = 'Thinking…';
+      setAiStatus('checking', 'Live AI is preparing a reply');
       reply.textContent = 'Searching this site for relevant context…';
-      const conversation = assistantConversation.slice(-8);
       const result = await requestSiteAssistant(latestQuestion, document.body.dataset.projection || 'home', collectSiteContext(latestQuestion), conversation, streamedReply => {
+        const follow = assistantIsNearBottom();
         reply.textContent = streamedReply;
+        if (follow) assistantThread.scrollTop = assistantThread.scrollHeight;
       });
-      assistantSubmit.disabled = false;
-      assistantSubmit.textContent = 'Ask DarkBlaze';
       if (result.ok) {
         setAiStatus('ready', 'Live AI responded successfully');
-        reply.textContent = result.data.reply;
+        latestReply = result.data.reply;
+        reply.textContent = latestReply;
         dispatchSiteAssistantActions(result.data.actions, {
           navigate: page => project(page, true, true),
           searchProjects: query => {
@@ -468,27 +530,59 @@
           },
           searchSite: showSiteSearchResults
         });
+        assistantConversation.push({role: 'user', content: latestQuestion}, {role: 'assistant', content: latestReply});
+        completed = true;
       } else {
-        setAiStatus('offline', 'Live AI service did not respond successfully');
-        reply.textContent = preparedReply
-          ? `${preparedReply.response} I can’t reach the live assistant just now, so I’ve shared the information available on this site.`
-          : 'I can’t reach the live assistant just now. I can still help you explore the projects, roadmap, privacy notice, or contact options.';
+        setAiStatus('offline', 'Live AI did not respond; retry your message');
+        latestReply = preparedReply
+          ? `${preparedReply.response} I couldn’t reach the live assistant just now, so I’ve shared information available on this site.`
+          : 'I couldn’t reach the live assistant just now. Please check your connection and try again. Your message is still in the composer.';
+        reply.textContent = latestReply;
+        if (preparedReply) {
+          assistantConversation.push({role: 'user', content: latestQuestion}, {role: 'assistant', content: latestReply});
+          completed = true;
+        } else {
+          question.value = latestQuestion;
+          const retry = document.createElement('button');
+          retry.type = 'button';
+          retry.className = 'assistant-retry';
+          retry.textContent = 'Try again';
+          retry.setAttribute('aria-label', 'Retry sending your last message');
+          retry.addEventListener('click', () => {
+            userMessage.remove();
+            assistantMessage.remove();
+            question.value = latestQuestion;
+            resizeAssistantComposer();
+            question.focus();
+          }, {once: true});
+          assistantMessage.append(retry);
+        }
       }
     } else {
-      setAiStatus('local', 'Local prepared replies are active · no live model request was made');
-      reply.textContent = preparedReply
+      setAiStatus('local', 'Prepared site responses are active; no live model request was made');
+      latestReply = preparedReply
         ? preparedReply.response
         : 'Thanks for asking. This preview does not have a live model connected yet, so I can answer from prepared site and project information. I can still help you explore the projects, roadmap, privacy notice, or contact options.';
+      reply.textContent = latestReply;
+      assistantConversation.push({role: 'user', content: latestQuestion}, {role: 'assistant', content: latestReply});
+      completed = true;
     }
-    latestReply = reply.textContent;
-    assistantConversation.push({role: 'user', content: latestQuestion}, {role: 'assistant', content: latestReply});
-    while (assistantConversation.length > 8) assistantConversation.shift();
+    assistantMessage.classList.remove('is-pending');
+    assistantStatus.textContent = completed ? 'Site Secretary replied.' : 'The live reply failed. You can retry the message.';
+    assistantBusy = false;
+    assistantSubmit.disabled = false;
+    clearConversation.disabled = false;
     emailReply.href = `mailto:admin@darkblaze.org?subject=${encodeURIComponent(SITE_AI_ENDPOINT ? 'DarkBlaze website assistant reply' : 'DarkBlaze website prepared reply')}&body=${encodeURIComponent(`Visitor question:\n${latestQuestion}\n\nSite Secretary response:\n${latestReply}`)}`;
     whatsappReply.href = `https://wa.me/27847768997?text=${encodeURIComponent(latestReply)}`;
-    emailReply.hidden = false;
-    whatsappReply.hidden = false;
-    requestDetails.hidden = false;
+    emailReply.hidden = !completed;
+    whatsappReply.hidden = !completed;
+    requestDetails.hidden = !completed;
     updateRequestType();
+    assistantThread.scrollTop = assistantThread.scrollHeight;
+  }
+  assistantForm.addEventListener('submit', event => {
+    event.preventDefault();
+    sendAssistantMessage();
   });
   const search = document.getElementById('project-search');
   if (search) search.addEventListener('input', () => {
