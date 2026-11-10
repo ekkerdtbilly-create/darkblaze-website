@@ -28,7 +28,7 @@
     return {reply: value.reply.trim(), actions: checked};
   }
   async function readSiteAiStream(response, onDelta) {
-    const maxBytes = 131072;
+    const maxBytes = 524288;
     if (!response.body || !response.body.getReader) throw new Error('stream_unavailable');
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
