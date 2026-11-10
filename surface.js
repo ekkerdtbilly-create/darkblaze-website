@@ -6,7 +6,7 @@
   const pageDescriptions = { "home": "DarkBlaze Group develops research and prototypes across computer systems, adaptive interfaces, and neural-network design.", "work": "Explore DarkBlaze research across UCC, Rust-Sense, SenseOS, SenseUI, HNDEN, and Sphere: Rosetta with 0xAlexandria.", "ucc": "Universal Constraint Computing explores declaring system purpose, permitted actions, and resource limits before execution.", "senseos": "SenseOS is a research direction for a coherent computer environment and a shared SenseUI surface.", "senseui": "SenseUI explores one Rust-authored adaptive visual surface for web, mobile, and the planned SenseOS userspace.", "about": "Learn about DarkBlaze Group, its founder, research journey, and work with aligned engineering and research partners.", "hnden": "HNDEN is DarkBlaze Group's first-generation neural-network design prototype and research direction.", "sphere": "Sphere unites Rosetta and 0xAlexandria in research toward traceable, bounded translation from intent to machine representations.", "privacy": "Read the current DarkBlaze website privacy notice, including browser behavior and unresolved hosting-log questions.", "terms": "Review the draft DarkBlaze Group website terms of use; owner and jurisdiction-specific legal review remain pending.", "accessibility": "Read DarkBlaze's initial accessibility statement, known limitations, and contact path for reporting a barrier.", "notices": "Review credits, third-party references, software dependencies, and asset licensing notices for the DarkBlaze site." };
   const metaDescription = document.querySelector('meta[name="description"]');
   const preparedReplies = [{"phrases":["hnden"],"response":"HNDEN is our first-generation neural-network design prototype. It is an early expression of the direction we want to explore; this site shares the vision without publishing its implementation details.","topic":"HNDEN","words":[]},{"phrases":["senseui","interface"],"response":"SenseUI is our Rust-based effort to create one adaptive surface across web, mobile, and, over time, SenseOS. This R16 site is authored in Rust and generates browser-ready files; a native SenseUI runtime is still a development goal.","topic":"SenseUI","words":[]},{"phrases":["senseos","operating system"],"response":"SenseOS is our longer-term operating-system direction. Its current architecture treats files, processes, services, and network endpoints as typed objects, with filesystem paths acting as one view of that shared object space. Native compatibility is a long-term goal: current syscall catalogs are inventories, and the reviewed Linux x86_64 path handles only write, exit, and exit_group calls. SenseOS remains in development; this website is not a complete operating system.","topic":"SenseOS","words":[]},{"phrases":["constraint"],"response":"Universal Constraint Computing is ongoing research into making purpose, permissions, and limits explicit. We have not yet demonstrated complete, end-to-end enforcement.","topic":"Universal Constraint Computing","words":["ucc"]},{"phrases":["sphere","rosetta","alexandria"],"response":"Sphere currently mirrors bounded, intent-defined representations across JSON, Rust, and raw-machine forms. The broader aim is to extend this approach to other languages through calibrated, verified profiles. Arbitrary-language compilation is not available today.","topic":"Sphere · Rosetta · 0xAlexandria","words":[]},{"phrases":["privacy"],"response":"This page does not use analytics, tracking cookies, or browser storage. Hosting-provider connection logging has not been verified. The Privacy section explains what the current site does and does not handle.","topic":"Privacy","words":[]},{"phrases":["invest","fund"],"response":"DarkBlaze is looking for aligned engineering, research, and compute support. Funding amounts, legal entity details, and investment terms have not been published.","topic":"Aligned support","words":[]},{"phrases":["contact"],"response":"You can reach DarkBlaze at admin@darkblaze.org. The email and WhatsApp options prepare a message for you to review; nothing is sent until you choose to send it.","topic":"Contact","words":[]}];
-  const SITE_AI_ENDPOINT = "";
+  const SITE_AI_ENDPOINT = "https://darkblaze-r16-ai.ekkerdb.workers.dev/chat";
   const SITE_AI_PAGES = new Set(['home','work','ucc','senseos','senseui','about','hnden','sphere','privacy','terms','accessibility','notices']);
   function validateSiteAssistantResult(value) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
@@ -27,29 +27,70 @@
     }
     return {reply: value.reply.trim(), actions: checked};
   }
-  async function readSiteAiBody(response) {
-    const maxBytes = 65536;
-    const declared = Number(response.headers.get('content-length') || 0);
-    if (declared > maxBytes || !response.body || !response.body.getReader) throw new Error('bounded_response_unavailable');
+  async function readSiteAiStream(response, onDelta) {
+    const maxBytes = 131072;
+    if (!response.body || !response.body.getReader) throw new Error('stream_unavailable');
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-    const chunks = [];
+    const toolCalls = new Map();
+    let reply = '';
+    let buffer = '';
     let total = 0;
+    function readEvent(block) {
+      const data = block.split('\n').filter(line => line.startsWith('data:')).map(line => line.slice(5).trimStart()).join('\n');
+      if (!data || data === '[DONE]') return;
+      const packet = JSON.parse(data);
+      const delta = packet && packet.choices && packet.choices[0] && packet.choices[0].delta;
+      if (!delta) return;
+      if (typeof delta.content === 'string' && delta.content) {
+        reply += delta.content;
+        if ([...reply].length > 6000) throw new Error('reply_too_large');
+        if (typeof onDelta === 'function') onDelta(reply);
+      }
+      if (Array.isArray(delta.tool_calls)) for (const part of delta.tool_calls) {
+        if (!part || !Number.isInteger(part.index)) continue;
+        const call = toolCalls.get(part.index) || {name: '', arguments: ''};
+        if (part.function && typeof part.function.name === 'string') call.name += part.function.name;
+        if (part.function && typeof part.function.arguments === 'string') call.arguments += part.function.arguments;
+        if (call.arguments.length > 4096) throw new Error('tool_payload_too_large');
+        toolCalls.set(part.index, call);
+      }
+    }
     for (;;) {
       const part = await reader.read();
-      if (part.done) break;
+      if (part.done) {
+        buffer += decoder.decode();
+        if (buffer.trim()) readEvent(buffer);
+        break;
+      }
       total += part.value.byteLength;
       if (total > maxBytes) {
         await reader.cancel();
         throw new Error('response_too_large');
       }
-      chunks.push(decoder.decode(part.value, {stream: true}));
+      buffer = (buffer + decoder.decode(part.value, {stream: true})).replace(/\r\n/g, '\n');
+      let boundary;
+      while ((boundary = buffer.indexOf('\n\n')) >= 0) {
+        const event = buffer.slice(0, boundary);
+        buffer = buffer.slice(boundary + 2);
+        readEvent(event);
+      }
     }
-    chunks.push(decoder.decode());
-    return chunks.join('');
+    const actions = [];
+    for (const call of toolCalls.values()) {
+      if (call.name !== 'site_actions') continue;
+      let value;
+      try { value = JSON.parse(call.arguments); } catch (_) { continue; }
+      if (value && Array.isArray(value.actions)) actions.push(...value.actions);
+    }
+    const checked = validateSiteAssistantResult({
+      reply: reply.trim() || (actions.length ? 'I’ve updated the site to match your request.' : ''),
+      actions
+    });
+    return checked;
   }
   const SITE_AI_GUIDANCE = 'You are the DarkBlaze Site Secretary. Welcome general discussion as well as questions about the site and its projects. Speak in warm, calm, direct, natural full sentences, with the clarity of a public-transit announcement and no theatrical imitation. Use recent conversation turns only to understand this session; do not infer sensitive traits or claim lasting memory. For DarkBlaze facts, rely only on the supplied site context, state plainly when information is missing, and never invent dates, capabilities, funding terms, or status. Keep navigation and search suggestions within the supplied allowlist.';
-  async function requestSiteAssistant(questionText, activePage, context, conversation) {
+  async function requestSiteAssistant(questionText, activePage, context, conversation, onDelta) {
     if (!SITE_AI_ENDPOINT) return {ok: false, kind: 'offline'};
     if (typeof questionText !== 'string' || !questionText.trim() || questionText.length > 240 || !SITE_AI_PAGES.has(activePage)) return {ok: false, kind: 'invalid_request'};
     const recentTurns = Array.isArray(conversation) ? conversation.slice(-8).flatMap(turn => {
@@ -58,7 +99,7 @@
       return content ? [{role: turn.role, content}] : [];
     }) : [];
     const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 25000);
+    const timer = window.setTimeout(() => controller.abort(), 60000);
     try {
       const response = await fetch(SITE_AI_ENDPOINT, {
         method: 'POST',
@@ -70,10 +111,9 @@
         signal: controller.signal
       });
       if (!response.ok) return {ok: false, kind: 'service_unavailable'};
-      const body = await readSiteAiBody(response);
-      let decoded;
-      try { decoded = JSON.parse(body); } catch (_) { return {ok: false, kind: 'invalid_response'}; }
-      const data = validateSiteAssistantResult(decoded);
+      if (!(response.headers.get('content-type') || '').toLowerCase().includes('text/event-stream')) return {ok: false, kind: 'invalid_response'};
+      let data;
+      try { data = await readSiteAiStream(response, onDelta); } catch (_) { return {ok: false, kind: 'invalid_response'}; }
       return data ? {ok: true, data} : {ok: false, kind: 'invalid_response'};
     } catch (error) {
       return {ok: false, kind: error && error.name === 'AbortError' ? 'timeout' : 'service_unavailable'};
@@ -406,7 +446,9 @@
       assistantSubmit.textContent = 'Thinking…';
       reply.textContent = 'Searching this site for relevant context…';
       const conversation = assistantConversation.slice(-8);
-      const result = await requestSiteAssistant(latestQuestion, document.body.dataset.projection || 'home', collectSiteContext(latestQuestion), conversation);
+      const result = await requestSiteAssistant(latestQuestion, document.body.dataset.projection || 'home', collectSiteContext(latestQuestion), conversation, streamedReply => {
+        reply.textContent = streamedReply;
+      });
       assistantSubmit.disabled = false;
       assistantSubmit.textContent = 'Ask DarkBlaze';
       if (result.ok) {
