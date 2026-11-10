@@ -1640,6 +1640,24 @@ body[data-theme=light] .assistant-action:hover, body[data-theme=light] .assistan
   cursor: pointer;
   box-shadow: 0 8px 20px -18px rgba(255, 255, 255, .5);
 }
+.assistant-control {
+  min-height: 44px;
+  padding: .35rem .2rem;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 18px -16px rgba(255, 255, 255, .9);
+}
+.assistant-control:hover, .assistant-control:focus-visible {
+  text-shadow: 0 0 10px rgba(255, 255, 255, .9);
+  filter: drop-shadow(0 0 7px rgba(255, 255, 255, .5));
+}
+body[data-theme=light] .assistant-control:hover, body[data-theme=light] .assistant-control:focus-visible {
+  color: #172238;
+  text-shadow: 0 0 9px rgba(0, 0, 0, .24);
+}
 .assistant-contact-actions a, .assistant-request a {
   color: #a3e6ff;
   font-size: 13px;

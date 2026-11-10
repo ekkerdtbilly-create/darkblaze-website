@@ -28,7 +28,7 @@
     return {reply: value.reply.trim(), actions: checked};
   }
   async function readSiteAiStream(response, onDelta) {
-    const maxBytes = 524288;
+    const maxBytes = 65536;
     if (!response.body || !response.body.getReader) throw new Error('stream_unavailable');
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
@@ -90,7 +90,7 @@
     return checked;
   }
   const SITE_AI_GUIDANCE = 'You are the DarkBlaze Site Secretary. Welcome general discussion as well as questions about the site and its projects. Speak in warm, calm, direct, natural full sentences, with the clarity of a public-transit announcement and no theatrical imitation. Use recent conversation turns only to understand this session; do not infer sensitive traits or claim lasting memory. For DarkBlaze facts, rely only on the supplied site context, state plainly when information is missing, and never invent dates, capabilities, funding terms, or status. Keep navigation and search suggestions within the supplied allowlist.';
-  async function requestSiteAssistant(questionText, activePage, context, conversation, onDelta) {
+  async function requestSiteAssistant(questionText, activePage, context, conversation, onDelta, externalSignal) {
     if (!SITE_AI_ENDPOINT) return {ok: false, kind: 'offline'};
     if (typeof questionText !== 'string' || !questionText.trim() || questionText.length > 240 || !SITE_AI_PAGES.has(activePage)) return {ok: false, kind: 'invalid_request'};
     const recentTurns = Array.isArray(conversation) ? conversation.slice(-8).flatMap(turn => {
@@ -99,7 +99,13 @@
       return content ? [{role: turn.role, content}] : [];
     }) : [];
     const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 60000);
+    let timedOut = false;
+    const onExternalAbort = () => controller.abort();
+    if (externalSignal) {
+      if (externalSignal.aborted) controller.abort();
+      else externalSignal.addEventListener('abort', onExternalAbort, {once: true});
+    }
+    const timer = window.setTimeout(() => { timedOut = true; controller.abort(); }, 60000);
     try {
       const response = await fetch(SITE_AI_ENDPOINT, {
         method: 'POST',
@@ -107,18 +113,23 @@
         credentials: 'omit',
         cache: 'no-store',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({question: questionText.trim(), active_page: activePage, context: String(context || '').slice(0, 12000), conversation: recentTurns, response_guidance: SITE_AI_GUIDANCE}),
+        body: JSON.stringify({question: questionText.trim(), active_page: activePage, context: String(context || '').slice(0, 4600), conversation: recentTurns, response_guidance: SITE_AI_GUIDANCE}),
         signal: controller.signal
       });
       if (!response.ok) return {ok: false, kind: 'service_unavailable'};
       if (!(response.headers.get('content-type') || '').toLowerCase().includes('text/event-stream')) return {ok: false, kind: 'invalid_response'};
       let data;
-      try { data = await readSiteAiStream(response, onDelta); } catch (_) { return {ok: false, kind: 'invalid_response'}; }
+      try { data = await readSiteAiStream(response, onDelta); } catch (_) {
+        if (externalSignal && externalSignal.aborted) return {ok: false, kind: 'cancelled'};
+        return {ok: false, kind: timedOut ? 'timeout' : 'invalid_response'};
+      }
       return data ? {ok: true, data} : {ok: false, kind: 'invalid_response'};
     } catch (error) {
-      return {ok: false, kind: error && error.name === 'AbortError' ? 'timeout' : 'service_unavailable'};
+      if (externalSignal && externalSignal.aborted) return {ok: false, kind: 'cancelled'};
+      return {ok: false, kind: timedOut ? 'timeout' : 'service_unavailable'};
     } finally {
       window.clearTimeout(timer);
+      if (externalSignal) externalSignal.removeEventListener('abort', onExternalAbort);
     }
   }
   function dispatchSiteAssistantActions(actions, handlers) {
@@ -146,6 +157,7 @@
   const clearConversation = document.getElementById('assistant-clear');
   const assistantActions = document.getElementById('assistant-actions');
   const assistantSubmit = document.getElementById('assistant-submit');
+  const assistantStop = document.getElementById('assistant-stop');
   const emailReply = document.getElementById('assistant-email-reply');
   const whatsappReply = document.getElementById('assistant-whatsapp-reply');
   const requestDetails = document.getElementById('assistant-request');
@@ -160,6 +172,7 @@
   let latestQuestion = '';
   let latestReply = '';
   let assistantBusy = false;
+  let activeAssistantController = null;
   function setAiStatus(status, title) {
     trigger.dataset.aiStatus = status;
     trigger.title = title;
@@ -312,26 +325,33 @@
       }
       if (pageScore) {
         excerpts.sort((left, right) => right.score - left.score);
-        matches.push({key, title, score: pageScore, excerpts: excerpts.slice(0, 4).map(item => item.text)});
+        matches.push({key, title, score: pageScore, excerpts: excerpts.slice(0, 3).map(item => item.text)});
       }
     }
-    return matches.sort((left, right) => right.score - left.score);
+    const activePage = document.body.dataset.projection || 'home';
+    return matches.sort((left, right) => (right.score + (right.key === activePage ? 3 : 0)) - (left.score + (left.key === activePage ? 3 : 0)));
   }
   function collectSiteContext(query) {
-    const pages = [...views.keys()].map(key => ({key, title: pageTitles[key], description: pageDescriptions[key]}));
     const matchingSections = [];
     let used = 0;
-    for (const match of siteMatches(query)) {
+    for (const match of siteMatches(query).slice(0, 3)) {
       for (const excerpt of match.excerpts) {
         const section = {page: match.key, title: match.title, excerpt};
         const size = JSON.stringify(section).length;
-        if (used + size > 10500) break;
+        if (matchingSections.length >= 6 || used + size > 3900) break;
         matchingSections.push(section);
         used += size;
       }
-      if (used > 10500) break;
+      if (matchingSections.length >= 6 || used >= 3900) break;
     }
-    return JSON.stringify({sitePages: pages, matchingSections});
+    const activePage = document.body.dataset.projection || 'home';
+    if (!matchingSections.some(section => section.page === activePage)) {
+      const activeView = views.get(activePage);
+      const title = activeView?.querySelector('h1')?.textContent.trim() || pageTitles[activePage] || activePage;
+      const excerpt = activeView?.querySelector('p')?.textContent.replace(/\s+/g, ' ').trim().slice(0, 420) || '';
+      if (excerpt) matchingSections.unshift({page: activePage, title, excerpt});
+    }
+    return JSON.stringify({activePage, matchingSections}).slice(0, 4600);
   }
   function showSiteSearchResults(query) {
     assistantActions.replaceChildren();
@@ -470,6 +490,22 @@
     if (location.hash === '#surface-content') return;
     project(fromLocation(), false, true);
   });
+  function appendAssistantRetry(userMessage, assistantMessage, failedQuestion) {
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'assistant-retry';
+    retry.textContent = 'Try again';
+    retry.setAttribute('aria-label', 'Retry sending your last message');
+    retry.addEventListener('click', () => {
+      userMessage.remove();
+      assistantMessage.remove();
+      question.value = failedQuestion;
+      resizeAssistantComposer();
+      question.focus();
+      assistantForm.requestSubmit();
+    }, {once: true});
+    assistantMessage.append(retry);
+  }
   async function sendAssistantMessage() {
     if (assistantBusy) return;
     latestQuestion = question.value.trim();
@@ -507,11 +543,15 @@
     if (SITE_AI_ENDPOINT) {
       setAiStatus('checking', 'Live AI is preparing a reply');
       reply.textContent = 'Searching this site for relevant context…';
+      activeAssistantController = new AbortController();
+      assistantStop.hidden = false;
       const result = await requestSiteAssistant(latestQuestion, document.body.dataset.projection || 'home', collectSiteContext(latestQuestion), conversation, streamedReply => {
         const follow = assistantIsNearBottom();
         reply.textContent = streamedReply;
         if (follow) assistantThread.scrollTop = assistantThread.scrollHeight;
-      });
+      }, activeAssistantController.signal);
+      activeAssistantController = null;
+      assistantStop.hidden = true;
       if (result.ok) {
         setAiStatus('ready', 'Live AI responded successfully');
         latestReply = result.data.reply;
@@ -532,6 +572,13 @@
         });
         assistantConversation.push({role: 'user', content: latestQuestion}, {role: 'assistant', content: latestReply});
         completed = true;
+      } else if (result.kind === 'cancelled') {
+        setAiStatus('configured', 'Response generation was stopped');
+        latestReply = reply.textContent === 'Searching this site for relevant context…'
+          ? 'Generation stopped. Your message is ready to retry.'
+          : `${reply.textContent}\n\nGeneration stopped.`;
+        reply.textContent = latestReply;
+        appendAssistantRetry(userMessage, assistantMessage, latestQuestion);
       } else {
         setAiStatus('offline', 'Live AI did not respond; retry your message');
         latestReply = preparedReply
@@ -543,19 +590,7 @@
           completed = true;
         } else {
           question.value = latestQuestion;
-          const retry = document.createElement('button');
-          retry.type = 'button';
-          retry.className = 'assistant-retry';
-          retry.textContent = 'Try again';
-          retry.setAttribute('aria-label', 'Retry sending your last message');
-          retry.addEventListener('click', () => {
-            userMessage.remove();
-            assistantMessage.remove();
-            question.value = latestQuestion;
-            resizeAssistantComposer();
-            question.focus();
-          }, {once: true});
-          assistantMessage.append(retry);
+          appendAssistantRetry(userMessage, assistantMessage, latestQuestion);
         }
       }
     } else {
@@ -583,6 +618,9 @@
   assistantForm.addEventListener('submit', event => {
     event.preventDefault();
     sendAssistantMessage();
+  });
+  assistantStop.addEventListener('click', () => {
+    if (activeAssistantController) activeAssistantController.abort();
   });
   const search = document.getElementById('project-search');
   if (search) search.addEventListener('input', () => {
